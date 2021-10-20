@@ -1,0 +1,22 @@
+.Login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-image: linear-gradient(45deg, blue, rgba(blue, 0.5));
+  h1 {
+    color: white;
+    text-transform: capitalize;
+  }
+  button {
+    width: calc(120px + 15vw);
+    margin-block-start: 0.5em;
+    padding: 0.75em 0;
+    border: none;
+    background-color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}
