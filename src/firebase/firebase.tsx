@@ -15,7 +15,7 @@ const firebaseConfig = {
   projectId: "auth-dev-4ee99",
   storageBucket: "auth-dev-4ee99.appspot.com",
   messagingSenderId: "226591466456",
-  appId: "1:226591466456:web:0c6e52a6f10599cd4cc8ad",
+  appId: "1:226591466456:web:0c6e52a6f10599cd4cc8ad"
 };
 export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
