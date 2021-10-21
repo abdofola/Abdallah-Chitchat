@@ -8,7 +8,7 @@ export default function ChatMessage({ msg }: DocumentData) {
   const messageClass = uid === user?.uid ? 'sent' : 'recieve';
   
   useEffect(()=> {
-      console.log('Same user?',uid === user?.uid)
+      // console.log('Same user?',uid === user?.uid)
   })
   return (
     <div className={messageClass}>
