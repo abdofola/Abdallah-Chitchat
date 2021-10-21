@@ -7,6 +7,7 @@ import {
   addDoc,
   getDocs,
   serverTimestamp,
+  doc
 
 } from "firebase/firestore";
 // import { app } from "./firebase";
@@ -16,5 +17,5 @@ import {
 const db = getFirestore();
 const messagesRef = collection(db, "messages");
 
-export { orderBy, limit, query, messagesRef,getDocs, addDoc, serverTimestamp
+export { orderBy, limit, query, messagesRef,doc,  getDocs, addDoc, serverTimestamp
 };
