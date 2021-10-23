@@ -12,49 +12,52 @@ import {
 } from "../firebase/firestore";
 import { DocumentData, onSnapshot } from "@firebase/firestore";
 import ChatMessage from "../component/ChatMessage";
+import { useScroll } from "../custom_hooks/useScroll";
 
 export default function Chat() {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const navRef = useRef<HTMLFormElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [newMsg, setNewMsg] = useState<string>();
-  const dummyRef = useRef<HTMLDivElement | null>(null);
-  const valueRef = useRef<HTMLInputElement | null>(null);
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [err, setErr] = useState<boolean>(false);
-  const [messages, setMessages] = useState<DocumentData[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [messages, setMessages] = useState<DocumentData[] | null>([]);
   const history = useHistory();
   const user = useAuth();
+  const [ref, executeScroll] = useScroll();
 
+  // side effect to render loading indicator and messages when component first mounts.
   useEffect(() => {
+    console.log("on mount");
+    setLoading(true);
     const q = query(messagesRef, orderBy("createdAt"), limit(25));
-
     onSnapshot(q, (querySnapshot) => {
       setMessages(querySnapshot.docs);
+      setLoading(false);
     });
-  }, [newMsg]);
+  }, []);
+
+  // side effect to scroll the window to the last message when first component renders & on each new message.
+  useEffect(executeScroll);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newValue = valueRef.current?.value;
-    if (valueRef.current) {
-      setNewMsg(newValue); // is not working, & I dont know why
-      // console.log("ref message", newValue);
-      // console.log({ newMsg });
-      valueRef.current.value = "";
-    }
+    const inputElem = inputRef.current;
+
+    if (inputElem) inputElem.value = "";
 
     try {
-      if (!newValue) return;
-      await addDoc(messagesRef, {
-        text: newValue,
-        createdAt: serverTimestamp(),
-        uid: user?.uid,
-      });
+      if (newMsg) {
+        console.log(" message state is updated");
+        await addDoc(messagesRef, {
+          text: newMsg,
+          createdAt: serverTimestamp(),
+          uid: user?.uid,
+        });
+      }
+      console.log("message state is not updated yet!");
     } catch (error) {
       console.log(error);
     }
-
-    dummyRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
   };
 
   const handleLogout = async () => {
@@ -70,28 +73,44 @@ export default function Chat() {
     <>
       {user ? (
         <div className="Chatroom">
-          <nav>
-            <h2>Folachat</h2>
+          <nav ref={navRef}>
+            <h1>Folachat</h1>
             <button onClick={handleLogout}>Logout</button>
           </nav>
-          <section className="Chatroom__log">
-            {messages?.map((message, idx) => (
-              <ChatMessage key={idx} msg={message.data()} />
-            ))}
-
-            <div ref={dummyRef}></div>
+          <section
+            className="Chatroom__log"
+            style={{
+              paddingBlockStart: `${navRef.current?.clientHeight}px`,
+              paddingBlockEnd: `${formRef.current?.clientHeight}px`,
+            }}
+          >
+            {loading ? (
+              <h1 className="loading">Loading ...</h1>
+            ) : (
+              messages?.map((message, idx) => (
+                <ChatMessage key={idx} msg={message.data()} />
+              ))
+            )}
+            <div ref={ref} className="dummy"></div>
           </section>
-          <form>
-            <input ref={valueRef} type="text" />
-            <button type="submit" onClick={handleSubmit}>
+          <form ref={formRef} onSubmit={handleSubmit}>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Enter your message"
+            />
+            <button
+              type="submit"
+              onClick={() => setNewMsg(inputRef.current?.value)}
+            >
               send
             </button>
           </form>
         </div>
       ) : (
-        <div>
-          Sorry you need <Link to="/">sign in</Link> first.
-        </div>
+        <h3 style={{textAlign: 'center', paddingTop:'5rem'}}>
+          Sorry you need to <Link to="/">sign in</Link> first.
+        </h3>
       )}
     </>
   );

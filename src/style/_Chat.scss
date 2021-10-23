@@ -1,0 +1,64 @@
+.Chatroom {
+  display: grid;
+  // grid-template-rows: auto 1fr auto;
+  width: calc(min(70.5rem, 95%));
+  min-height: 100vh;
+  margin: 0 auto;
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.35em 0.5em 1em;
+    background-color: $black;
+    h1 {
+      margin: 0;
+    }
+    button {
+      display: inline-block;
+      background: transparent;
+      color: white;
+      border: none;
+    }
+  }
+  &__log {
+    align-self: flex-end;
+.dummy {
+  // height: 100px;
+  // background-color: red;
+}
+    .loading {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  form {
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0.5em;
+    background-color: $black;
+    input {
+      flex-basis: 100%;
+      padding: 1em;
+      border: none;
+      outline: none;
+      background: #333;
+      color: white;
+      border-radius: 1.5em;
+    }
+    button {
+      display: inline-block;
+      padding: 0 0.5em;
+      margin-inline-start: 0.25em;
+      border: none;
+      border-radius: 50%;
+    }
+  }
+}
