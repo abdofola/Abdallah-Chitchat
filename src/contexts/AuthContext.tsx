@@ -1,26 +1,30 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext, ReactChild } from "react";
 import { auth, onAuthStateChanged } from "../firebase/firebase";
 import { User } from "../interfaces/User";
 
+interface AuthProps {
+  children: ReactChild;
+}
+
 const AuthContext = React.createContext<User | null>(null);
+const useAuth = () => useContext(AuthContext);
 
-export const useAuth = () => useContext(AuthContext);
-
-export default function AuthProvider({ children }: any) {
+function AuthProvider({ children }: AuthProps) {
   const [user, setUser] = useState<User | null>(null);
-  const history = useHistory();
 
-  // side effect to set the user and pass it in
+  // side effect to set the user and pass it in the context value.
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        // console.log("user:", user);
         return user;
       }
       console.log("user is not logged in !");
     });
-  }, [user, history]);
+  }, [user]);
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }
+
+export { AuthProvider as default, useAuth };

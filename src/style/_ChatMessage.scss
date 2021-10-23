@@ -1,0 +1,51 @@
+.message {
+  display: flex;
+  margin: 0.6em 0;
+  .text {
+    max-width: 70%;
+    padding: 0.25em 0.5em;
+    border-radius: 1em;
+    word-break: break-all;
+    hyphens: auto;
+  }
+  &.sent {
+    justify-content: flex-end;
+    .text {
+      border-top-right-radius: unset;
+      background-color: $primary;
+    }
+  }
+  &.revieve {
+    .text {
+      background: darken(rgba($white, 0.5), 30%);
+      border-top-left-radius: unset;
+    }
+    .profile {
+      height: 25px;
+      width: 25px;
+      margin-inline-end: 0.45em;
+      border-radius: 50%;
+      align-self: center;
+    }
+  }
+}
+// .sent {
+//   justify-content: flex-end;
+//   h2 {
+//     border-top-right-radius: unset;
+//     background-color: $primary;
+//   }
+// }
+// .recieve {
+//   h2 {
+//     background: darken(rgba($white, 0.5), 30%);
+//     border-top-left-radius: unset;
+//   }
+//   img {
+//     height: 25px;
+//     width: 25px;
+//     margin-inline-end: 0.45em;
+//     border-radius: 50%;
+//     align-self: center;
+//   }
+// }

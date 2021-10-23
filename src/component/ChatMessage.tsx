@@ -1,19 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { DocumentData } from "@firebase/firestore";
 import { useAuth } from "../contexts/AuthContext";
 
-export default function ChatMessage({ msg }: DocumentData) {
-  const { uid, text, photoURL } = msg;
+interface ChatMsgProp {
+  msg: DocumentData;
+}
+
+export default function ChatMessage({ msg }: ChatMsgProp) {
+  const [photo, setPhoto] = useState<string | null>();
   const user = useAuth();
-  const messageClass = uid === user?.uid ? 'sent' : 'recieve';
-  
-  useEffect(()=> {
-      // console.log('Same user?',uid === user?.uid)
-  })
+  const sender = msg.uid === user?.uid;
+
+  useEffect(() => {
+    // const [data] = user?.providerData;
+    // console.log("user:", user);
+
+    !sender && setPhoto(user?.photoURL);
+  }, [sender, user]);
+
   return (
-    <div className={messageClass}>
-      <img src={photoURL} alt="user profile" />
-      <h1>{text}</h1>
+    <div className={`message ${sender ? "sent" : "recieve"}`}>
+      {photo && <img className="profile" src={`${photo}`} alt="user profile" />}
+      <h2 className="text">{msg.text}</h2>
     </div>
   );
 }
