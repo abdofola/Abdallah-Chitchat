@@ -14,13 +14,12 @@ export default function ChatMessage({ msg }: ChatMsgProp) {
   useEffect(() => {
     // const [data] = user?.providerData;
     // console.log("user:", user);
-
-    !sender && setPhoto(user?.photoURL);
-  }, [sender, user]);
+    setPhoto(user?.photoURL);
+  }, [user?.photoURL]);
 
   return (
     <div className={`message ${sender ? "sent" : "recieve"}`}>
-      {photo && <img className="profile" src={`${photo}`} alt="user profile" />}
+      {!sender && <img src={`${photo}`} alt="user profile" />}
       <h2 className="text">{msg.text}</h2>
     </div>
   );
