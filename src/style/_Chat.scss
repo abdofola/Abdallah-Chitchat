@@ -1,9 +1,6 @@
 .Chatroom {
   display: grid;
-  // grid-template-rows: auto 1fr auto;
-  width: calc(min(70.5rem, 95%));
-  min-height: 100vh;
-  margin: 0 auto;
+  min-height: 100%;
   nav {
     position: fixed;
     top: 0;
@@ -12,23 +9,22 @@
     justify-content: space-between;
     width: 100%;
     padding: 0.35em 0.5em 1em;
-    background-color: $black;
     h1 {
       margin: 0;
     }
     button {
       display: inline-block;
-      background: transparent;
-      color: white;
+      padding: 0 0.35em;
       border: none;
+      border-radius: 0.5rem;
+      outline: none;
+      cursor: pointer;
     }
   }
   &__log {
     align-self: flex-end;
-.dummy {
-  // height: 100px;
-  // background-color: red;
-}
+    width: calc(min(70.5rem, 95%));
+    margin: 0 auto;
     .loading {
       position: absolute;
       left: 50%;
@@ -43,22 +39,34 @@
     bottom: 0;
     width: 100%;
     padding: 0.5em;
-    background-color: $black;
     input {
+      font-family: $chat-font;
+
+      font-size: 100%;
       flex-basis: 100%;
       padding: 1em;
       border: none;
       outline: none;
-      background: #333;
-      color: white;
+      background: $bg-light;
       border-radius: 1.5em;
+      &.dark {
+        color: $white;
+        &::placeholder {
+          color: rgba($white, $alpha: 0.35);
+        }
+      }
+      &.light {
+        color: $black;
+      }
     }
     button {
       display: inline-block;
-      padding: 0 0.5em;
+      font-size: 2em;
+      // padding: 0 0.5em;
       margin-inline-start: 0.25em;
+      background: none;
       border: none;
-      border-radius: 50%;
+      cursor: pointer;
     }
   }
 }

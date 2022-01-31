@@ -10,7 +10,6 @@ import {
   doc
 
 } from "firebase/firestore";
-// import { app } from "./firebase";
 
 
 

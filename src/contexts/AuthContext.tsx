@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext, ReactChild } from "react";
+import React, { useState, useEffect, useContext,  } from "react";
 import { auth, onAuthStateChanged } from "../firebase/firebase";
 import { User } from "../interfaces/User";
 
 interface AuthProps {
-  children: ReactChild;
+  children: React.ReactNode;
 }
 
 const AuthContext = React.createContext<User | null>(null);
@@ -17,7 +17,6 @@ function AuthProvider({ children }: AuthProps) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        // console.log("user:", user);
         return user;
       }
       console.log("user is not logged in !");
