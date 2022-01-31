@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
 } from "@firebase/auth";
 import { ReactNode } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 type Provider = GoogleAuthProvider | FacebookAuthProvider;
 
@@ -16,10 +17,11 @@ type SignButtonProps = {
 
 export default function SignButton({ children, provider, name }: SignButtonProps) {
   const history = useHistory();
-
+  const user = useAuth()
   const handleSignIn = async (provider: Provider) => {
     try {
       await signInWithPopup(auth, provider); // returns the result containing user info
+      user?.setAuthenticated(true)
       history.push("/chat");
     } catch (error: any) {
       // Handle Errors here.

@@ -39,16 +39,18 @@
     bottom: 0;
     width: 100%;
     padding: 0.5em;
-    input {
+    textarea {
+      position: relative;
       font-family: $chat-font;
-
       font-size: 100%;
       flex-basis: 100%;
-      padding: 1em;
+      padding: 0.95em 0.85em 0 0.85em;
       border: none;
       outline: none;
       background: $bg-light;
       border-radius: 1.5em;
+      line-height: 1.1;
+      resize: none;
       &.dark {
         color: $white;
         &::placeholder {
@@ -62,7 +64,6 @@
     button {
       display: inline-block;
       font-size: 2em;
-      // padding: 0 0.5em;
       margin-inline-start: 0.25em;
       background: none;
       border: none;

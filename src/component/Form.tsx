@@ -9,7 +9,7 @@ import { FaTelegramPlane } from "react-icons/fa";
 
 
 export default function Form({setFormHeight}: StateProps) {
-  const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const inputRef = React.useRef<HTMLTextAreaElement | null>(null);
   const [newMsg, setNewMsg] = React.useState<string>();
   const user = useAuth();
   const theme = useThemeContext();
@@ -33,8 +33,8 @@ export default function Form({setFormHeight}: StateProps) {
         await addDoc(messagesRef, {
           text: newMsg,
           createdAt: serverTimestamp(),
-          uid: user?.uid,
-          photoURL: user?.photoURL,
+          uid: user?.info?.uid,
+          photoURL: user?.info?.photoURL,
         });
       }
       console.log("message state is not updated yet!");
@@ -45,7 +45,7 @@ export default function Form({setFormHeight}: StateProps) {
 
   return (
     <form ref={ref} className={`App-theme-${theme?.themeAlias}`} onSubmit={handleSubmit}>
-      <input ref={inputRef} className={`${theme?.themeAlias}`} type="text" placeholder="Enter your message ..." />
+      <textarea ref={inputRef} className={`${theme?.themeAlias}`} placeholder="Enter your message ..." />
       <button type="submit" onClick={() => setNewMsg(inputRef.current?.value)}>
         <FaTelegramPlane style={{fill: `${theme?.theme.color}`}} />
       </button>
