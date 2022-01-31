@@ -1,0 +1,9 @@
+.Nav {
+    &__logo {
+        font-family: $logo-font;
+    }
+    > button {
+        background: none;
+        opacity: 0.75;
+    }
+}

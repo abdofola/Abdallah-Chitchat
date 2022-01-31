@@ -1,35 +1,32 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { auth, signOut } from "../firebase/firebase";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import {
-  serverTimestamp,
-  messagesRef,
-  orderBy,
-  query,
-  limit,
-  addDoc,
-} from "../firebase/firestore";
+import { messagesRef, orderBy, query } from "../firebase/firestore";
 import { DocumentData, onSnapshot } from "@firebase/firestore";
 import ChatMessage from "../component/ChatMessage";
 import { useScroll } from "../custom_hooks/useScroll";
+import Nav from "../component/Nav";
+import Form from "../component/Form";
+import { useThemeContext } from "../contexts/themeContext";
 
 export default function Chat() {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const navRef = useRef<HTMLFormElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const [newMsg, setNewMsg] = useState<string>();
+  const [navHeight, setNavHeight] = useState(0);
+  const [formHeight, setFormHeight] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<DocumentData[] | null>([]);
-  const history = useHistory();
   const user = useAuth();
+  const theme = useThemeContext();
   const [ref, executeScroll] = useScroll();
+  const paddingBlock = {
+    paddingBlockStart: `${navHeight}px`,
+    paddingBlockEnd: `${formHeight}px`,
+  };
 
   // side effect to render loading indicator and messages when component first mounts.
   useEffect(() => {
-    console.log("on mount");
+    // console.log("on mount");
     setLoading(true);
-    const q = query(messagesRef, orderBy("createdAt"), limit(25));
+    const q = query(messagesRef, orderBy("createdAt")); // query accepts another argument as limit
     onSnapshot(q, (querySnapshot) => {
       setMessages(querySnapshot.docs);
       setLoading(false);
@@ -39,51 +36,12 @@ export default function Chat() {
   // side effect to scroll the window to the last message when first component renders & on each new message.
   useEffect(executeScroll);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const inputElem = inputRef.current;
-
-    if (inputElem) inputElem.value = "";
-
-    try {
-      if (newMsg) {
-        console.log(" message state is updated");
-        await addDoc(messagesRef, {
-          text: newMsg,
-          createdAt: serverTimestamp(),
-          uid: user?.uid,
-        });
-      }
-      console.log("message state is not updated yet!");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      history.push("/");
-    } catch (error: unknown) {
-      console.log("error from Chat:", error);
-    }
-  };
-
   return (
     <>
       {user ? (
-        <div className="Chatroom">
-          <nav ref={navRef}>
-            <h1>Folachat</h1>
-            <button onClick={handleLogout}>Logout</button>
-          </nav>
-          <section
-            className="Chatroom__log"
-            style={{
-              paddingBlockStart: `${navRef.current?.clientHeight}px`,
-              paddingBlockEnd: `${formRef.current?.clientHeight}px`,
-            }}
-          >
+        <div className={`Chatroom App-theme-${theme?.themeAlias}`}>
+          <Nav setNavHeight={setNavHeight} />
+          <section className="Chatroom__log" style={paddingBlock}>
             {loading ? (
               <h1 className="loading">Loading ...</h1>
             ) : (
@@ -93,22 +51,10 @@ export default function Chat() {
             )}
             <div ref={ref} className="dummy"></div>
           </section>
-          <form ref={formRef} onSubmit={handleSubmit}>
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Enter your message"
-            />
-            <button
-              type="submit"
-              onClick={() => setNewMsg(inputRef.current?.value)}
-            >
-              send
-            </button>
-          </form>
+          <Form setFormHeight={setFormHeight} />
         </div>
       ) : (
-        <h3 style={{textAlign: 'center', paddingTop:'5rem'}}>
+        <h3 style={{ textAlign: "center", paddingTop: "5rem" }}>
           Sorry you need to <Link to="/">sign in</Link> first.
         </h3>
       )}

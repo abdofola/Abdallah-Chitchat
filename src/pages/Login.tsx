@@ -1,57 +1,39 @@
 import {
   FacebookAuthProvider,
-  GithubAuthProvider,
-  GoogleAuthProvider,
+    GoogleAuthProvider,
 } from "@firebase/auth";
-import { useHistory } from "react-router";
-import signInWithPopup, { auth } from "../firebase/firebase";
+import { ReactNode } from "react";
+import { FaFacebook, FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import SignButton from "../component/SignButton";
 
-type Provider = GoogleAuthProvider | GithubAuthProvider | FacebookAuthProvider;
+type Icon = {
+  [key: string]: ReactNode;
+};
+
+const providers = {
+  google: new GoogleAuthProvider(),
+  facebook: new FacebookAuthProvider(),
+};
+
+const ICONS: Icon = {
+  google: <FcGoogle />,
+  facebook: <FaFacebook />,
+  github: <FaGithub />,
+};
 
 export default function Login() {
-  const history = useHistory();
-
-  const handleSignIn = async (provider: Provider) => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      history.push("/chat");
-      // console.log("user", user);
-      return user;
-    } catch (error: any) {
-      // Handle Errors here.
-      
-      const errorMessage = error.message;
-      console.log("err msg:", errorMessage);
-      const email = error.email;
-      console.log('email',email)
-      // const credentials = GithubAuthProvider.credentialFromError(error);
-      // console.log('credenials',credentials)
-      return error;
-    }
-  };
+  const buttons = Object.entries(providers).map(([name, provider]) => (
+    <SignButton key={name} name={name} provider={provider}>
+      {ICONS[name]}
+     <span>{`sign in with ${name}`}</span> 
+    </SignButton>
+  ));
 
   return (
     <div className="Login">
-      <h1>fola chit chat</h1>
-      <button
-        className="btn google"
-        onClick={() => handleSignIn(new GoogleAuthProvider())}
-      >
-        login with google
-      </button>
-      <button
-        className="btn facebook"
-        onClick={() => handleSignIn(new FacebookAuthProvider())}
-      >
-        login with facebook
-      </button>
-      <button
-        className="btn github"
-        onClick={() => handleSignIn(new GithubAuthProvider())}
-      >
-        login with github
-      </button>
+      <h1>fola chitchat</h1>
+      {buttons}
     </div>
   );
 }

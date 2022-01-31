@@ -4,8 +4,9 @@ import Chat from "../pages/Chat";
 import ErrorBoundary from "./ErrorBoundary";
 
 function App() {
+
   return (
-    <div className="App">
+    <div className="App" >
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
