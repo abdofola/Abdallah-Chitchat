@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { useThemeContext } from "../contexts/themeContext";
 import { useHeight } from "../custom_hooks/useHeight";
 import { auth, signOut } from "../firebase/firebase";
@@ -10,7 +11,7 @@ export default function Nav({ setNavHeight }: StateProps) {
   const [ref, getHeight] = useHeight();
   const history = useHistory();
   const theme = useThemeContext();
-
+  const user = useAuth()
   React.useEffect(() => {
     setNavHeight(getHeight());
   });
@@ -18,6 +19,7 @@ export default function Nav({ setNavHeight }: StateProps) {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      user?.setAuthenticated(false);
       // if (theme?.themeAlias === "dark") theme?.toggleTheme();
       history.push("/");
     } catch (error: unknown) {

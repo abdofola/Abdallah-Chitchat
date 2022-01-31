@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { messagesRef, orderBy, query } from "../firebase/firestore";
 import { DocumentData, onSnapshot } from "@firebase/firestore";
 import ChatMessage from "../component/ChatMessage";
@@ -14,7 +12,7 @@ export default function Chat() {
   const [formHeight, setFormHeight] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [messages, setMessages] = useState<DocumentData[] | null>([]);
-  const user = useAuth();
+  // const user = useAuth();
   const theme = useThemeContext();
   const [ref, executeScroll] = useScroll();
   const paddingBlock = {
@@ -38,26 +36,20 @@ export default function Chat() {
 
   return (
     <>
-      {user ? (
-        <div className={`Chatroom App-theme-${theme?.themeAlias}`}>
-          <Nav setNavHeight={setNavHeight} />
-          <section className="Chatroom__log" style={paddingBlock}>
-            {loading ? (
-              <h1 className="loading">Loading ...</h1>
-            ) : (
-              messages?.map((message, idx) => (
-                <ChatMessage key={idx} msg={message.data()} />
-              ))
-            )}
-            <div ref={ref} className="dummy"></div>
-          </section>
-          <Form setFormHeight={setFormHeight} />
-        </div>
-      ) : (
-        <h3 style={{ textAlign: "center", paddingTop: "5rem" }}>
-          Sorry you need to <Link to="/">sign in</Link> first.
-        </h3>
-      )}
+      <div className={`Chatroom App-theme-${theme?.themeAlias}`}>
+        <Nav setNavHeight={setNavHeight} />
+        <section className="Chatroom__log" style={paddingBlock}>
+          {loading ? (
+            <h1 className="loading">Loading ...</h1>
+          ) : (
+            messages?.map((message, idx) => (
+              <ChatMessage key={idx} msg={message.data()} />
+            ))
+          )}
+          <div ref={ref} className="dummy"></div>
+        </section>
+        <Form setFormHeight={setFormHeight} />
+      </div>
     </>
   );
 }

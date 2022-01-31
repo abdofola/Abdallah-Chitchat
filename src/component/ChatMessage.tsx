@@ -7,7 +7,7 @@ interface ChatMsgProp {
 
 export default function ChatMessage({ msg }: ChatMsgProp) {
   const user = useAuth();
-  const sender = msg.uid === user?.uid;
+  const sender = msg.uid === user?.info?.uid;
 
 
   return (
