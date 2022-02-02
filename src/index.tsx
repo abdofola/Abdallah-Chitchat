@@ -4,15 +4,13 @@ import "./index.scss";
 import App from "./component/App";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./contexts/AuthContext";
-import ThemeProvider from "./contexts/themeContext";
 
+//TODO: how many nested contexts we could have ???
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider>
     <AuthProvider>
       <App />
     </AuthProvider>
-    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

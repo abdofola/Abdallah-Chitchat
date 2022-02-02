@@ -1,5 +1,5 @@
-export type SetStateType = React.Dispatch<React.SetStateAction<number>>;
+export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 
-export interface StateProps  {
-  [key: string]: SetStateType;
-};
+export interface StateProps<T> {
+  [key: string]: SetStateType<T>;
+}

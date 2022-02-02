@@ -1,7 +1,7 @@
-import { FunctionComponent } from "react";
+import { ReactNode } from "react";
 
 export interface AllRoutesProps {
-  component: FunctionComponent;
+  children: ReactNode;
   isAuthenticated: boolean | undefined;
   [key: string]: any;
 }
