@@ -1,6 +1,6 @@
 .Chatroom {
   display: grid;
-  min-height: 100%;
+  min-height: 100vh;
   nav {
     position: fixed;
     top: 0;
@@ -68,6 +68,9 @@
       background: none;
       border: none;
       cursor: pointer;
+      &:disabled {
+        opacity: 0.35;
+      }
     }
   }
 }

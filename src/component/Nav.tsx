@@ -7,11 +7,11 @@ import { auth, signOut } from "../firebase/firebase";
 import { StateProps } from "../interfaces/props";
 import Toggle from "./Toggle";
 
-export default function Nav({ setNavHeight }: StateProps) {
+export default function Nav({ setNavHeight }: StateProps<number>) {
   const [ref, getHeight] = useHeight();
   const history = useHistory();
   const theme = useThemeContext();
-  const user = useAuth()
+  const user = useAuth();
   React.useEffect(() => {
     setNavHeight(getHeight());
   });
@@ -20,7 +20,6 @@ export default function Nav({ setNavHeight }: StateProps) {
     try {
       await signOut(auth);
       user?.setAuthenticated(false);
-      // if (theme?.themeAlias === "dark") theme?.toggleTheme();
       history.push("/");
     } catch (error: unknown) {
       console.log("error from Chat:", error);
