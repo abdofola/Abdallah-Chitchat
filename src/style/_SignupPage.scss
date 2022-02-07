@@ -1,0 +1,84 @@
+
+
+
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: lighten($bg-gray-light, 15%);
+}
+
+.form {
+  width: $form-width;
+  padding: 1.5em;
+  background-color: $white;
+  @extend .box-shadow-form;
+  border-radius: 1em;
+  &--signup {
+    margin: auto;
+  }
+  &__box {
+    //   position: relative;
+    margin: 1.5em auto;
+
+    label {
+      margin-bottom: 0.35em;
+      padding-inline-start: 0.35em;
+      text-transform: uppercase;
+      font-weight: 500;
+      border-inline-start: 4px solid $yellow;
+    }
+    .box {
+      display: flex;
+      .icon {
+        margin-inline-end: 0.35em;
+        padding: 0.5em;
+        background-color: rgba($yellow, 0.75);
+        color: $white;
+        border-radius: 50%;
+        @extend .box-shadow-3d;
+      }
+      input {
+        flex-basis: 100%;
+        padding-inline-start: 0.75em;
+        background-color: darken($white, 7%);
+        border: none;
+        outline: none;
+        border-radius: 10em;
+        @extend .box-shadow-3d;
+        &:focus {
+          outline: 2px solid $yellow;
+        }
+      }
+    }
+  }
+  &__btn {
+    display: flex;
+    justify-content: center;
+    width: calc(min(100%, 20rem));
+    margin: 1.5em auto 0;
+    padding: 0.5em 0;
+    color: $white;
+    border-radius: 10em;
+    border: none;
+    text-transform: uppercase;
+    @extend .box-shadow-3d;
+  }
+  &--signBtn {
+    letter-spacing: 2px;
+    background: $yellow;
+  }
+  > p {
+    margin-block-start: 1em;
+    text-align: center;
+     a {
+      position: relative;
+      text-decoration: none;
+      @extend .customLink;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

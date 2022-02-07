@@ -1,7 +1,7 @@
 import { Button, Modal } from "react-bootstrap";
-import { usePopupContext } from "../contexts/PopupContext";
+import { usePopupContext } from "../features/contexts/PopupContext";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../features/contexts/AuthContext";
 import { SetStateType } from "../interfaces/props";
 
 type toggler = () => void;
@@ -21,10 +21,10 @@ export default function Popup() {
   }
 
   // handlers
-  const redirectToSignin = function () {
+  const handleRedirect = function (path: string) {
     handleClose();
     setAuthenticated(false);
-    history.push("/");
+    history.push(path);
   };
 
   return (
@@ -41,10 +41,10 @@ export default function Popup() {
           Ooh, sorry you need to be a user to start texting!
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={redirectToSignin}>
+          <Button variant="custom-yellow" onClick={() => handleRedirect("/")}>
             Signin
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="custom-blue" onClick={() => handleRedirect("/signup")}>
             Signup
           </Button>
         </Modal.Footer>

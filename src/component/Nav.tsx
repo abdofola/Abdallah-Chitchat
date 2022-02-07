@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { useThemeContext } from "../contexts/themeContext";
-import { useHeight } from "../custom_hooks/useHeight";
+import { useAuth } from "../features/contexts/AuthContext";
+import { useThemeContext } from "../features/contexts/themeContext";
+import { useHeight } from "../features/helpers/custom_hooks/useHeight";
 import { auth, signOut } from "../firebase/firebase";
 import { StateProps } from "../interfaces/props";
 import Toggle from "./Toggle";
@@ -28,7 +28,7 @@ export default function Nav({ setNavHeight }: StateProps<number>) {
 
   return (
     <nav ref={ref} className={`Nav App-theme-${theme?.themeAlias}`}>
-      <h1 className="Nav__logo">Fola</h1>
+      <h1 className="Nav__logo">klam</h1>
       <Toggle />
       <button
         onClick={handleLogout}

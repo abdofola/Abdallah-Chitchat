@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { messagesRef, orderBy, query } from "../firebase/firestore";
 import { DocumentData, onSnapshot } from "@firebase/firestore";
 import ChatMessage from "../component/ChatMessage";
-import { useScroll } from "../custom_hooks/useScroll";
+import { useScroll } from "../features/helpers/custom_hooks/useScroll";
 import Nav from "../component/Nav";
 import Form from "../component/MessageForm";
-import { useThemeContext } from "../contexts/themeContext";
-import { usePopupContext } from "../contexts/PopupContext";
+import { useThemeContext } from "../features/contexts/themeContext";
+import { usePopupContext } from "../features/contexts/PopupContext";
 import Popup from "../component/Popup";
 
 export default function Chat() {
@@ -15,7 +15,7 @@ export default function Chat() {
   const [navHeight, setNavHeight] = useState(0);
   const [formHeight, setFormHeight] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<DocumentData[] | null>([]);
+  const [messages, setMessages] = useState<DocumentData[] | null>(null);
   const [ref, executeScroll] = useScroll();
   const paddingBlock = {
     paddingBlockStart: `${navHeight}px`,

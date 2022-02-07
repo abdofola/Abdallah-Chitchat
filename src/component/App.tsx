@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from "../pages/Login";
+import Login from "../pages/LoginPage";
+import Signup from "../pages/SignupPage";
 import Chat from "../pages/Chat";
 import PrivateRoutes from "../pages/PrivateRoutes";
 import PublicRoutes from "../pages/PublicRoutes";
-import { useAuth } from "../contexts/AuthContext";
-import PopupProvider from "../contexts/PopupContext";
-import ThemeProvider from "../contexts/themeContext";
+import { useAuth } from "../features/contexts/AuthContext";
+import PopupProvider from "../features/contexts/PopupContext";
+import ThemeProvider from "../features/contexts/themeContext";
 import NotFound from "../pages/NotFound";
 
 function App() {
@@ -29,6 +30,12 @@ function App() {
               </PopupProvider>
             </ThemeProvider>
           </PrivateRoutes>
+          <PublicRoutes
+            path="/signup"
+            isAuthenticated={user?.isAuthenticated}
+          >
+            <Signup />
+          </PublicRoutes>
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>

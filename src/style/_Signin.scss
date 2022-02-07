@@ -1,0 +1,73 @@
+// UTITLITY CLASSES
+
+.form {
+  &__title {
+    @extend .title;
+  }
+  &__box--min {
+    width: calc(min(100%, 20rem));
+  }
+  &__providers {
+    > button {
+      margin: 0.5em auto;
+      padding-inline-start: 2em;
+      background-color: $white;
+      color: $black;
+      letter-spacing: 0;
+      text-transform: capitalize;
+      .text {
+        margin-inline-end: auto;
+        margin-inline-start: 2em;
+      }
+      > svg {
+        font-size: 1.3rem;
+      }
+      &[name="facebook"] > svg {
+        fill: $clr-facebook;
+      }
+    }
+  }
+  &__footer {
+    margin-block-start: 2em;
+    .try {
+      position: relative;
+      background-color: transparent;
+      color: $blue;
+      border: none;
+      outline: none;
+      @extend .customLink;
+    }
+    a {
+      position: relative;
+      text-decoration: none;
+      @extend .customLink;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .divider {
+    display: grid;
+    place-items: center;
+    margin: 1.5em 0;
+    > span {
+      position: relative;
+      padding: 5px;
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translate(100%, 50%);
+        width: 100%;
+        height: 1px;
+        background: black;
+        @extend .pale-para;
+      }
+      &::after {
+        transform: translate(-200%, 50%);
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ body {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   line-height: 1.2;
-    -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .App {
@@ -32,5 +32,65 @@ body {
 h1 {
   margin: 0.5em 0;
 }
+.pale-para {
+  font-family: "Source Serif 4", sans-serif;
+  color: lighten($black, 30%);
+}
 
+.title {
+  position: relative;
+  width: max-content;
+  margin: auto;
+  z-index: 1;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 7px;
+    background-color: rgba($yellow, 0.5);
+    z-index: -1;
+  }
+}
 
+.customLink {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: $blue;
+  }
+  &:hover,
+  &:focus {
+    &::after {
+      height: 0;
+    }
+  }
+}
+
+.box-shadow-3d {
+  box-shadow: 2px 2px 5px $shadow-clr-dark, inset 1px 2px 5px $shadow-clr-light,
+    inset -3px -3px 5px $shadow-clr-dark;
+}
+.box-shadow-form {
+  box-shadow: 25px 25px 75px $shadow-clr-dark,
+    inset 1px 1px 10px $shadow-clr-dark, inset 5px 5px 10px $shadow-clr-light,
+    inset -5px -5px 10px rgba($shadow-clr-dark, 0.5);
+}
+
+.form__box {
+  position: relative;
+  .error {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    bottom: -35%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: $red;
+  }
+}

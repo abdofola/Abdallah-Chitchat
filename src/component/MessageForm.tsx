@@ -1,12 +1,12 @@
 import * as React from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { useThemeContext } from "../contexts/themeContext";
-import { useHeight } from "../custom_hooks/useHeight";
-import { addDoc, serverTimestamp, messagesRef } from "../firebase/firestore";
+import { useAuth } from "../features/contexts/AuthContext";
+import { useThemeContext } from "../features/contexts/themeContext";
+import { useHeight } from "../features/helpers/custom_hooks/useHeight";
 import { StateProps } from "../interfaces/props";
 import { FaTelegramPlane } from "react-icons/fa";
 import { User } from "../interfaces/User";
-import { usePopupContext } from "../contexts/PopupContext";
+import { usePopupContext } from "../features/contexts/PopupContext";
+import useAddMessage from "../features/helpers/custom_hooks/useAddMessage";
 
 export default function Form({ setFormHeight }: StateProps<number>) {
   const user = useAuth();
@@ -15,6 +15,7 @@ export default function Form({ setFormHeight }: StateProps<number>) {
   const [newMsg, setNewMsg] = React.useState<string>();
   const [canSave, setCanSave] = React.useState(false);
   const [ref, getHeight] = useHeight<HTMLFormElement>();
+  const firebase = useAddMessage();
   let info: User | null;
 
   if (user != null) {
@@ -26,39 +27,27 @@ export default function Form({ setFormHeight }: StateProps<number>) {
   }, [getHeight, setFormHeight]);
 
   // handlers
-  const handleMessageChange = (e: React.ChangeEvent) => {
-    const elem = e.target as HTMLTextAreaElement;
-    setNewMsg(elem.value);
-    setCanSave(Boolean(info) && Boolean(elem.value));
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setNewMsg(value);
+    setCanSave(Boolean(info) && Boolean(value));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      if (canSave) {
-        console.log(" message state is updated");
-        return await addDoc(messagesRef, {
-          text: newMsg,
-          createdAt: serverTimestamp(),
-          uid: user?.info?.uid,
-          photoURL: user?.info?.photoURL,
-        });
-      }
-
-      console.log("message state is not updated yet!");
-    } catch (error) {
-      console.log("error", error);
-    }
-
     setNewMsg("");
+    if (canSave && newMsg) return firebase.add(newMsg);
+
+    console.log("message state is not updated yet!");
   };
 
   const handlePopup = function () {
     if (!info) {
       let handleShow: () => void;
       if (popup) {
-        ({2: handleShow} = popup);
+        ({ 2: handleShow } = popup);
         handleShow();
       }
       console.log("%cthis is demo user", "background:coral");
@@ -77,7 +66,7 @@ export default function Form({ setFormHeight }: StateProps<number>) {
         value={newMsg}
         onChange={handleMessageChange}
       />
-      <button onClick={handlePopup}>
+      <button className="send" onClick={handlePopup}>
         <FaTelegramPlane style={{ fill: `${theme?.theme.color}` }} />
       </button>
     </form>
