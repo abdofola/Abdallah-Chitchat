@@ -1,5 +1,5 @@
 import { DocumentData } from "@firebase/firestore";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../features/contexts/AuthContext";
 
 interface ChatMsgProp {
   msg: DocumentData;

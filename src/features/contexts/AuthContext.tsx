@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { auth, onAuthStateChanged } from "../firebase/firebase";
-import { SetStateType } from "../interfaces/props";
-import { User } from "../interfaces/User";
+import { auth, onAuthStateChanged } from "../../firebase/firebase";
+import { SetStateType } from "../../interfaces/props";
+import { User } from "../../interfaces/User"
 
 type AuthProps = {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ function AuthProvider({ children }: AuthProps) {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [isAuthenticated, setAuthenticated] = useState(false);
 
-  // sideeffect that sets an authentication state observer and get user data.
+  // sideeffect that sets an authentication state observer and gets user data.
   //  the observer gets called whenever user state sign-in changed
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

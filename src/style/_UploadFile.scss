@@ -1,0 +1,75 @@
+$clr-upload: $yellow;
+$icon-size: clamp(1.5rem, calc(1.2rem + 2vw), 2rem);
+
+
+.upload {
+  display: grid;
+  place-items: center;
+  padding: 0.5em 0 2em;
+  border: 2px solid $clr-upload;
+  border-radius: 1rem;
+  &__dropZone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(min(70%, 20rem));
+    height: calc(min(200px, 100px + 5vw));
+    padding: 1.5em 0;
+    border: 2px dashed $clr-upload;
+    border-radius: inherit;
+    cursor: pointer;
+    > svg {
+      font-size: $icon-size;
+      fill: $clr-upload;
+      margin: 0 0 0.5rem;
+    }
+    p {
+      margin: 0;
+    }
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    > input {
+      // opacity: 0;
+      display: none;
+    }
+  }
+  &__file-uploaded {
+    margin-block-start: 2em;
+    width: calc(min(70%, 20rem));
+    .details {
+      display: flex;
+      gap: 0.5em;
+      > svg {
+        align-self: flex-end;
+        font-size: $icon-size;
+        fill: $clr-upload;
+      }
+      &__wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .progress {
+          position: relative;
+          align-self: flex-end;
+          width: 100%;
+          height: 0.5em;
+          margin-block-start: auto;
+          background-color: lighten($black, 50%);
+          > span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: $clr-upload;
+            width: 0;
+            transition: all 0.25s linear;
+          }
+        }
+      }
+    }
+  }
+}

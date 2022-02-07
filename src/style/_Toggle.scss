@@ -18,6 +18,7 @@
     background-color: $bg-slider-light;
     transition: 0.3s;
     border-radius: 34px;
+    @extend .box-shadow-3d;
     &::before {
       position: absolute;
       content: "🌞️";
@@ -34,7 +35,6 @@
     &::before {
       content: "🌛️";
       transform: translateX(90%);
-      background-color: $bg-slider-dark;
     }
   }
   input.light + span {

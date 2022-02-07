@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./component/App";
 import reportWebVitals from "./reportWebVitals";
-import AuthProvider from "./contexts/AuthContext";
+import AuthProvider from "./features/contexts/AuthContext";
 
 //TODO: how many nested contexts we could have ???
 ReactDOM.render(

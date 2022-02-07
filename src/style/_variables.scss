@@ -1,16 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo&family=Supermercado+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo&family=Merriweather&family=Source+Serif+4&family=Supermercado+One&display=swap");
 
 $black: #333;
-$white: hsl(0 , 0, 100%);
+$white: hsl(0, 0, 100%);
 $primary: hsl(25, 69%, 46%);
+$bg-gray-light: #ccc;
 
 $bg-dark: #171717;
 $bg-light: rgba(179, 179, 179, 0.5);
 $bg-slider-dark: #515355;
-$bg-slider-light: #ccc;
+$bg-slider-light: $bg-gray-light;
 $clr-facebook: #3b5998;
 $clr-font-500: #757575;
+$shadow-clr-dark: rgba($black, 0.25);
+$shadow-clr-light: $white;
 
 // fonts
-$logo-font: 'Supermercado One', cursive;
-$chat-font: 'Cairo', sans-serif;
+$logo-font: "Supermercado One", cursive;
+$chat-font: "Cairo", sans-serif;
+
+// widths
+$form-width: calc(min(95%, 35rem));
+

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Theme from '../interfaces/Theme'
+import * as Theme from '../../interfaces/Theme'
 
 
 type ThemeValue = {

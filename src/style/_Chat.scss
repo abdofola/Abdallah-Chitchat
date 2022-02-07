@@ -51,6 +51,8 @@
       border-radius: 1.5em;
       line-height: 1.1;
       resize: none;
+      @extend .box-shadow-3d;
+
       &.dark {
         color: $white;
         &::placeholder {
@@ -61,7 +63,7 @@
         color: $black;
       }
     }
-    button {
+    .send {
       display: inline-block;
       font-size: 2em;
       margin-inline-start: 0.25em;

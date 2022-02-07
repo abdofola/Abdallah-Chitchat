@@ -1,0 +1,8 @@
+.btn-custom-yellow, .btn-custom-blue {
+  background-color: $yellow ;
+  color: $white;
+  @extend .box-shadow-3d;
+}
+.btn-custom-blue {
+  background-color: $blue ;
+}
