@@ -41,7 +41,7 @@ export const initialErrorState = {
 };
 
 export default function Signup() {
-  const [btnMessage, setBtnMessage] = useState("sign in");
+  const [btnMessage, setBtnMessage] = useState("sign up");
 
   const [progress, setProgress] = useState(0);
   const [state, dispatch] = useReducer(inputReducer, initialState);
