@@ -8,7 +8,6 @@ import {
 } from "react";
 import { Container } from "react-bootstrap";
 import UploadFile from "../component/UploadFile";
-import useFirebaseDownload from "../features/helpers/custom_hooks/useFirebaseDownload";
 import useFirebaseSignup from "../features/helpers/custom_hooks/useFirebaseSignup";
 import useFirebaseUpload from "../features/helpers/custom_hooks/useFirebaseUpload";
 import { inputReducer } from "../features/helpers/reducers/inputReducer";
@@ -42,7 +41,8 @@ export const initialErrorState = {
 
 export default function Signup() {
   const [btnMessage, setBtnMessage] = useState("sign up");
-
+  const [canSubmit, setCanSubmit] = useState(true);
+  const [imgUrl, setImgUrl] = useState("");
   const [progress, setProgress] = useState(0);
   const [state, dispatch] = useReducer(inputReducer, initialState);
   const [errorState, dispatchedError] = useReducer(
@@ -51,19 +51,24 @@ export default function Signup() {
   );
   const { emptinessCheck, validationCheck } = useCustomFormValidation();
   const imgFile = useFirebaseUpload();
-  const firebaseDownload = useFirebaseDownload();
   const firebaseSignup = useFirebaseSignup();
 
-  // side effect to perform cleanup.
-  useEffect(function sideEffect() {
-    return cleanup;
-    function cleanup() {
-      console.log("component unmount");
-    }
-  }, []);
+  // side effect to set the ablility of submiting the form programaitcally when the file input selected.
+  useEffect(
+    function sideEffect() {
+      console.log("progress", progress);
+      if (state.photoFile) {
+        progress === 100 && setCanSubmit(true);
+      }
+      return function cleanup() {
+        console.log("component unmount");
+      };
+    },
+    [progress, state.photoFile]
+  );
 
   // handlers
-  const handleInputChange = function (
+  const handleInputChange = async function (
     e: ChangeEvent<HTMLInputElement>,
     actionType: SignupActionTypes
   ) {
@@ -71,8 +76,12 @@ export default function Signup() {
     let payLoad: Payload;
 
     if (actionType === "photoFile" && elem.files) {
+      console.log("file changes");
+      setCanSubmit(false);
       payLoad = elem.files[0];
-      return dispatch(actionCreator(actionType, payLoad));
+      dispatch(actionCreator(actionType, payLoad));
+      await imgFile.upload(payLoad, setProgress, setImgUrl);
+      return;
     }
 
     payLoad = elem.value;
@@ -86,7 +95,7 @@ export default function Signup() {
     const {
       target: { value },
     } = e;
-    const field = actionType.split("E")[0]; // returns either emailError or passwordError
+    const field = actionType.split("E")[0]; // returns either email or password
     const fields = emptinessCheck({
       [EMAIL]: "",
       [PASSWORD]: "",
@@ -110,8 +119,8 @@ export default function Signup() {
       Boolean(state.email) && Boolean(state.password);
     // console.log("%cstate", "background:lightblue", state);
 
+    // TEST REQUIRED FIELD NOT EMPTY FAILS
     if (!RequiredFieldsNotEmpty) {
-      // TEST REQUIRED FIELD NOT EMPTY FAILS
       const { email, password } = emptinessCheck({
         [EMAIL]: state[EMAIL],
         [PASSWORD]: state[PASSWORD],
@@ -138,17 +147,18 @@ export default function Signup() {
 
     // TEST INVALID FIELDS PASSES
     if (state.photoFile) {
-      await imgFile.upload(state.photoFile, setProgress);
-      const url = await firebaseDownload.download(state.photoFile.name);
-      firebaseSignup
-        .signup(state.email, state.password, url)
-        .then((errorCode) => {
-          setBtnMessage("sign in");
-          console.log("error inside component", errorCode);
-          dispatchedError(actionCreator(EMAIL_ERROR, errorCode));
-        });
+      const errorCode = await firebaseSignup.signup(
+        state.email,
+        state.password,
+        imgUrl
+      );
+      if (errorCode) {
+        setBtnMessage("sign in");
+        dispatchedError(actionCreator(EMAIL_ERROR, errorCode));
+      }
       return;
     }
+
     firebaseSignup.signup(state.email, state.password).then((errorCode) => {
       setBtnMessage("sign in");
       console.log("error inside component", errorCode);
@@ -198,7 +208,9 @@ export default function Signup() {
             file={state.photoFile}
             progress={progress}
           />
-          <button className="form__btn form--signBtn ">{btnMessage}</button>
+          <button className="form__btn form--signBtn " disabled={!canSubmit}>
+            {btnMessage}
+          </button>
           <p className="pale-para">
             {" "}
             Already have an account! <Link to="/">sign in</Link>{" "}

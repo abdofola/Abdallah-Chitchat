@@ -17,16 +17,15 @@ export default function useFirebaseSignup() {
         password
       );
       const { user } = userCredential;
-      imgUrl &&
-        await updateProfile(user, {
-          // update the currently signed user with correnspondent uploaded image.
-          photoURL: imgUrl,
-        });
+      // update the currently signed user with correnspondent uploaded image.
+      await updateProfile(user, {
+        photoURL: imgUrl,
+      });
       return;
     } catch (error: any) {
-      const errorCode = error.code;
+      const errorCode:string = error.code;
       console.log("inside signup hook error code: ", errorCode);
-    return errorCode;
+      return errorCode;
     }
   }
 }
