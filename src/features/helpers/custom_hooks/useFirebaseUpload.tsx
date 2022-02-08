@@ -4,10 +4,8 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   StorageError,
-  UploadTask,
 } from "firebase/storage";
 import { SetStateType } from "../../../interfaces/props";
-
 
 export default function useFirebaseUpload() {
   const storage = getStorage();
@@ -26,21 +24,17 @@ export default function useFirebaseUpload() {
     }
   };
 
-  const handleSuccess = function (uploadTask: UploadTask) {
-    // Upload completed successfully, now we can get the download URL
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log("File available at", downloadURL);
-    });
-  };
-
   return { upload };
 
-  async function upload(file: File, setProgress: SetStateType<number>) {
-    console.log("%cfile inside upload", "background:green;color:white", file);
-    
+  async function upload(
+    file: File,
+    setProgress: SetStateType<number>,
+    setImgUrl: SetStateType<string>
+  ) {
+    // console.log("%cfile inside upload", "background:green;color:white", file);
+
     const metadata = {
       contentType: file.type,
-      uid: ''
     };
     // Upload file and metadata to the object 'images/${file.name}'
     const storageRef = ref(storage, "images/" + file.name);
@@ -54,7 +48,7 @@ export default function useFirebaseUpload() {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
-          setProgress(progress)
+        setProgress(progress);
         console.log("Upload is " + progress + "% done");
         switch (snapshot.state) {
           case "paused":
@@ -66,8 +60,11 @@ export default function useFirebaseUpload() {
         }
       },
       handleFailure,
-      handleSuccess.bind(null, uploadTask)
+      function handleSuccess() {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setImgUrl(url);
+        });
+      }
     );
   }
-
 }

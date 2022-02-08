@@ -145,7 +145,7 @@ export default function Signin() {
     setBtnMessage("wait ...");
     // TEST FIELDS VALIDITY PASSES
     firebase.signin(state.email, state.password).then((errorCode) => {
-      console.log("error code in sign in", errorCode);
+      // console.log("error code in sign in", errorCode);
       if (errorCode) setBtnMessage("sign in");
       dispatchedError(actionCreator(EMAIL_ERROR, errorCode));
     });

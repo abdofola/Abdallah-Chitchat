@@ -64,6 +64,9 @@
     border: none;
     text-transform: uppercase;
     @extend .box-shadow-3d;
+    &:disabled {
+        opacity: 0.5;
+    }
   }
   &--signBtn {
     letter-spacing: 1px;
