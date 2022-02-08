@@ -133,7 +133,7 @@ export default function Signup() {
       dispatchedError(actionCreator(PASSWORD_ERROR, password));
       return;
     }
-    
+
     setBtnMessage("wait ...");
 
     // TEST INVALID FIELDS PASSES

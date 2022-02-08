@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef } from "react";
 import { SignupActionTypes, PHOTO } from "../interfaces/Actions";
 
 type UploadFileProps = {
-  file: File | null | undefined;
+  file: File | null | undefined | any;
   progress: number;
   handleInput: (
     e: ChangeEvent<HTMLInputElement>,
@@ -17,12 +17,12 @@ export default function UploadFile({
   handleInput,
 }: UploadFileProps) {
   const ref = useRef<HTMLInputElement | null>(null);
-
+  
   // side effect to perform clean up of the file reference.
   useEffect(function sideEffect() {
     return cleanup;
     function cleanup() {
-      ref.current = null;
+      // ref.current = null;
     }
   },[]);
 
@@ -42,7 +42,7 @@ export default function UploadFile({
             <p className="pale-para">Click to browse</p>
           </>
         ) : (
-          <img src={file.name} alt="upload img" />
+          <img src={URL.createObjectURL(file)} alt="upload img" />
         )}
         <input
           ref={ref}
