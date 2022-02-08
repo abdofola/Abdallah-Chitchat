@@ -2,6 +2,7 @@
 
 .form {
   &__title {
+      text-transform: uppercase;
     @extend .title;
   }
   &__box--min {
@@ -62,7 +63,7 @@
         transform: translate(100%, 50%);
         width: 100%;
         height: 1px;
-        background: black;
+        background-color: $gray-500;
         @extend .pale-para;
       }
       &::after {
