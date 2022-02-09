@@ -5,6 +5,7 @@ import {
   useEffect,
   useReducer,
   useState,
+  useRef,
 } from "react";
 import { Container } from "react-bootstrap";
 import UploadFile from "../component/UploadFile";
@@ -40,6 +41,9 @@ export const initialErrorState = {
 };
 
 export default function Signup() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pswRef = useRef<HTMLInputElement>(null);
+
   const [btnMessage, setBtnMessage] = useState("sign up");
   const [canSubmit, setCanSubmit] = useState(true);
   const [imgUrl, setImgUrl] = useState("");
@@ -127,6 +131,8 @@ export default function Signup() {
       });
       dispatchedError(actionCreator(EMAIL_ERROR, email));
       dispatchedError(actionCreator(PASSWORD_ERROR, password));
+      email && emailRef.current?.focus();
+      !email && pswRef && pswRef.current?.focus();
 
       return;
     }
@@ -140,6 +146,8 @@ export default function Signup() {
     if (invalidFields) {
       dispatchedError(actionCreator(EMAIL_ERROR, email));
       dispatchedError(actionCreator(PASSWORD_ERROR, password));
+      email && emailRef.current?.focus();
+      !email && pswRef && pswRef.current?.focus();
       return;
     }
 
@@ -178,6 +186,7 @@ export default function Signup() {
                 <AiFillMail />
               </div>
               <input
+                ref={emailRef}
                 className="SignupForm__input"
                 value={state.email}
                 placeholder="someone@example.com"
@@ -194,6 +203,7 @@ export default function Signup() {
                 <AiFillLock />
               </div>
               <input
+                ref={pswRef}
                 className="SignupForm__input"
                 type="password"
                 value={state.password}

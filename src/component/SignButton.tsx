@@ -1,5 +1,5 @@
 import { FacebookAuthProvider, GoogleAuthProvider } from "@firebase/auth";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import useFirebaseProvider from "../features/helpers/custom_hooks/useFirebaseProvider";
 
 type Provider = GoogleAuthProvider | FacebookAuthProvider;
@@ -17,7 +17,8 @@ export default function SignButton({
 }: SignButtonProps) {
   const firebase = useFirebaseProvider();
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     // on success user directly gets redirected to the chatroom
     firebase.signWithProvider(provider);
   };
