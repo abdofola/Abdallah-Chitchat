@@ -1,10 +1,10 @@
-import {
+import React, {
   ChangeEvent,
-  FormEvent,
   FocusEvent,
   useReducer,
   ReactNode,
   useState,
+  useRef,
 } from "react";
 import {
   actionCreator,
@@ -27,7 +27,7 @@ import { FacebookAuthProvider, GoogleAuthProvider } from "@firebase/auth";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import SignButton from "../component/SignButton";
-import { useAuth, UserContext } from "../features/contexts/AuthContext";
+import { useAuth } from "../features/contexts/AuthContext";
 import { SetStateType } from "../interfaces/props";
 import { Link } from "react-router-dom";
 import { initialErrorState } from "../pages/SignupPage";
@@ -54,6 +54,8 @@ const initialState: State = {
 };
 
 export default function Signin() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const pswRef = useRef<HTMLInputElement>(null);
   const [btnMessage, setBtnMessage] = useState("sign in");
   const [state, dispatch] = useReducer(inputReducer, initialState);
   const [errorState, dispatchedError] = useReducer(
@@ -70,12 +72,13 @@ export default function Signin() {
     </SignButton>
   ));
   let setAuthenticated: SetStateType<boolean>;
-  const user: UserContext | null = useAuth();
+  const user = useAuth();
 
   if (user != null) {
     // check if usercontext isn't null; to perform destructuring.
     ({ setAuthenticated } = user);
   }
+
   // handlers
   const handleInputChange = function (
     e: ChangeEvent<HTMLInputElement>,
@@ -113,7 +116,7 @@ export default function Signin() {
     }
   };
 
-  const handleSubmit = async function (e: FormEvent) {
+  const handleSubmit = async function (e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const RequiredFieldsNotEmpty =
       Boolean(state.email) && Boolean(state.password);
@@ -127,6 +130,8 @@ export default function Signin() {
       });
       dispatchedError(actionCreator(EMAIL_ERROR, email));
       dispatchedError(actionCreator(PASSWORD_ERROR, password));
+      email && emailRef.current?.focus()
+      !email && password && pswRef.current?.focus()
 
       return;
     }
@@ -140,6 +145,8 @@ export default function Signin() {
     if (invalidFields) {
       dispatchedError(actionCreator(EMAIL_ERROR, email));
       dispatchedError(actionCreator(PASSWORD_ERROR, password));
+      email && emailRef.current?.focus()
+      !email && password && pswRef.current?.focus()
       return;
     }
     setBtnMessage("wait ...");
@@ -152,7 +159,7 @@ export default function Signin() {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form">
       <h2 className="form__title">Sign in</h2>
       <div className="form__box form__box--min">
         <label>Email</label>
@@ -161,7 +168,8 @@ export default function Signin() {
             <AiFillMail />
           </div>
           <input
-            className="SignupForm__input "
+            ref={emailRef}
+            className={`SignupForm__input`}
             value={state.email}
             placeholder="someone@example.com"
             onChange={(e) => handleInputChange(e, EMAIL)}
@@ -177,6 +185,7 @@ export default function Signin() {
             <AiFillLock />
           </div>
           <input
+            ref={pswRef}
             className="SignupForm__input"
             type="password"
             value={state.password}
@@ -186,7 +195,13 @@ export default function Signin() {
         </div>
         <span className="error"> {errorState.passwordError} </span>
       </div>
-      <button className="form__btn form--signBtn">{btnMessage}</button>
+      <button
+        type="submit"
+        onClick={handleSubmit}
+        className="form__btn form--signBtn"
+      >
+        {btnMessage}
+      </button>
 
       <div className="divider">
         <span className="pale-para">or</span>
