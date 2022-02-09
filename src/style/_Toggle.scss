@@ -16,7 +16,7 @@
     bottom: 0;
     left: 0;
     background-color: $bg-slider-light;
-    transition: 0.3s;
+    // transition: transform 0.3s;
     border-radius: 34px;
     @extend .box-shadow-3d;
     &::before {
@@ -27,7 +27,7 @@
       width: 26px;
       left: 4px;
       bottom: 4px;
-      transition: 0.3s;
+      transition: transform 0.3s;
     }
   }
   input.dark + span {
