@@ -24,4 +24,4 @@ yarn-error.log*
 
 accessToken
 
-/src/firebase/firebase.tsx
+.env
