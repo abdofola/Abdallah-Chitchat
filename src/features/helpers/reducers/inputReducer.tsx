@@ -1,4 +1,4 @@
-import { EMAIL, PASSWORD, PHOTO, SignupActionTypes } from "../../../interfaces/Actions";
+import { EMAIL, PASSWORD, PHOTO, InputTypes } from "../../../interfaces/Actions";
 import { State } from "../../../interfaces/State";
 import { Action } from "../../../interfaces/Actions";
 
@@ -7,7 +7,7 @@ type InputReducer = <S extends State, Act extends Action>(
   action: Act
 ) => S;
 type Reducer<T> = {
-  [key in SignupActionTypes]: T
+  [key in InputTypes]: T
 } 
 export const inputReducer: InputReducer = function reducer(state, action) {
   const reducer: Reducer<typeof state> = {

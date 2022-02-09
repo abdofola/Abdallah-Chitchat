@@ -16,7 +16,7 @@ import {
   EMAIL,
   PASSWORD,
   Payload,
-  SignupActionTypes,
+  InputTypes,
 } from "../interfaces/Actions";
 import { State } from "../interfaces/State";
 import { AiFillMail, AiFillLock } from "react-icons/ai";
@@ -56,12 +56,12 @@ export default function Signup() {
   // side effect to set the ablility of submiting the form programaitcally when the file input selected.
   useEffect(
     function sideEffect() {
-      console.log("progress", progress);
+      // console.log("progress", progress);
       if (state.photoFile) {
         progress === 100 && setCanSubmit(true);
       }
       return function cleanup() {
-        console.log("component unmount");
+        // console.log("component unmount");
       };
     },
     [progress, state.photoFile]
@@ -70,13 +70,13 @@ export default function Signup() {
   // handlers
   const handleInputChange = async function (
     e: ChangeEvent<HTMLInputElement>,
-    actionType: SignupActionTypes
+    actionType: InputTypes
   ) {
     const elem = e.target;
     let payLoad: Payload;
 
     if (actionType === "photoFile" && elem.files) {
-      console.log("file changes");
+      // console.log("file changes");
       setCanSubmit(false);
       payLoad = elem.files[0];
       dispatch(actionCreator(actionType, payLoad));

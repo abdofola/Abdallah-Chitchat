@@ -1,13 +1,13 @@
 import { FaCloudUploadAlt, FaFileDownload } from "react-icons/fa";
 import { ChangeEvent, useEffect, useRef } from "react";
-import { SignupActionTypes, PHOTO } from "../interfaces/Actions";
+import { InputTypes, PHOTO } from "../interfaces/Actions";
 
 type UploadFileProps = {
   file: any;
   progress: number;
   handleInput: (
     e: ChangeEvent<HTMLInputElement>,
-    actionType: SignupActionTypes
+    actionType: InputTypes
   ) => void;
 };
 

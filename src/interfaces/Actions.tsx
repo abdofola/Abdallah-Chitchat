@@ -4,8 +4,8 @@ export const EMAIL = "email";
 export const PASSWORD = "password";
 export const PHOTO = "photoFile";
 
-export type SignupActionTypes = typeof EMAIL | typeof PASSWORD | typeof PHOTO;
-export type ActionTypes = SignupActionTypes | ErrorActionTypes;
+export type InputTypes = typeof EMAIL | typeof PASSWORD | typeof PHOTO;
+export type ActionTypes = InputTypes | ErrorActionTypes;
 export type Payload = null | void | string | File;
 
 export interface Action {
@@ -13,7 +13,7 @@ export interface Action {
   payload: Payload;
 }
 
-// TODO: fix the issue of actionCreator returned type.
+// TODO: the type of the returned value from actionCreator shouldn't be any. 
 type ActionCreator = (actionType: ActionTypes, actionPayload: Payload) => any;
 
 export const actionCreator: ActionCreator = function (actionType, payload) {
