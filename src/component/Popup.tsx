@@ -35,7 +35,7 @@ export default function Popup() {
 
       <Modal show={showPopup} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Chat App</Modal.Title>
+          <Modal.Title>Chat Room App</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Ooh, sorry you need to be a user to start texting!

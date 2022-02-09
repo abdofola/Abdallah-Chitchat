@@ -10,7 +10,7 @@ import {
   actionCreator,
   EMAIL,
   PASSWORD,
-  SignupActionTypes,
+  InputTypes,
 } from "../interfaces/Actions";
 import { inputReducer } from "../features/helpers/reducers/inputReducer";
 import {
@@ -79,7 +79,7 @@ export default function Signin() {
   // handlers
   const handleInputChange = function (
     e: ChangeEvent<HTMLInputElement>,
-    actionType: SignupActionTypes
+    actionType: InputTypes
   ) {
     const {
       target: { value },

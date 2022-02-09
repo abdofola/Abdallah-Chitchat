@@ -26,11 +26,11 @@ function AuthProvider({ children }: AuthProps) {
       if (user) {
         setUserInfo(user);
         setAuthenticated(true);
-        console.log('%cuser is logged with info:','background:lightgreen;color:white',user)
+        // console.log('%cuser is logged with info:','background:lightgreen;color:white',user)
       } else {
         setUserInfo(null)
         setAuthenticated(false);
-        console.log("%cuser is not logged in !", 'background:red;color:white');
+        // console.log("%cuser is not logged in !", 'background:red;color:white');
       }
       
     });

@@ -40,7 +40,7 @@ export default function Form({ setFormHeight }: StateProps<number>) {
     setNewMsg("");
     if (canSave && newMsg) return firebase.add(newMsg);
 
-    console.log("message state is not updated yet!");
+    // console.log("message state is not updated yet!");
   };
 
   const handlePopup = function () {
@@ -50,7 +50,7 @@ export default function Form({ setFormHeight }: StateProps<number>) {
         ({ 2: handleShow } = popup);
         handleShow();
       }
-      console.log("%cthis is demo user", "background:coral");
+      // console.log("%cthis is demo user", "background:coral");
     }
   };
 
