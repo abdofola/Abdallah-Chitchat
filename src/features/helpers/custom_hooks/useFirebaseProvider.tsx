@@ -15,10 +15,10 @@ export default function useFirebaseProvider() {
       success = true;
     } catch (error: any) {
       // Handle Errors here.
-      const errorMessage = error.message;
-      const email = error.email;
-      console.log("err msg:", errorMessage);
-      console.log("email", email);
+      // const errorMessage = error.message;
+      // const email = error.email;
+      // console.log("err msg:", errorMessage);
+      // console.log("email", email);
     }
 
     return success;

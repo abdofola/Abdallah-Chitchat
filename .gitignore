@@ -25,4 +25,3 @@ yarn-error.log*
 accessToken
 
 .env
-netlify.toml
