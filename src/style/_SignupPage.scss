@@ -46,6 +46,7 @@
         border: none;
         outline: none;
         border-radius: 10em;
+        overflow: hidden;
         @extend .box-shadow-3d;
         &:focus {
           outline: 2px solid $yellow;
